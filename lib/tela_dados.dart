@@ -5,10 +5,10 @@ import 'botaoInferiorPadrao.dart';
 import 'Inputs.dart';
 
 class TelaDados extends StatelessWidget {
-  TelaDados({required this.resultadoAve, required this.estoquee, required this.resultadoCA, required this.resultadoCAC});
+  TelaDados({required this.resultadoCA, required this.resultadoCAC});
 
-  final String resultadoAve;
-  final String estoquee;
+  //final String resultadoAve;
+  //final String estoquee;
   final String resultadoCA;
   final String resultadoCAC;
 
@@ -48,7 +48,7 @@ class TelaDados extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Expanded(
+                     /* Expanded(
                         child: CardPadrao(
                           filhoCard: Column(
                             children: [
@@ -93,7 +93,7 @@ class TelaDados extends StatelessWidget {
                             ],
                           ),
                         ),
-                      ),
+                      ),*/
                     ],
                   ),
                   const SizedBox(
