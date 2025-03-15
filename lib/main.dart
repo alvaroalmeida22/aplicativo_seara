@@ -13,7 +13,7 @@ class SearaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SearaApp',
+      title: 'Seara weeddwApp',
       theme: ThemeData(primarySwatch: Colors.grey),
       home: TelaPrincipal(),
       debugShowCheckedModeBanner: false,
