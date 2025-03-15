@@ -1,15 +1,46 @@
 import 'package:flutter/material.dart';
 
 class InputsCard extends StatelessWidget {
-  InputsCard({required this.desc,required this.edit});
+  InputsCard({
+    required this.desc,
+    required this.edit,
+    required this.validato,
+  });
 
   final String desc;
-  TextEditingController edit = TextEditingController();
+  final TextEditingController edit;
+  final String? Function(String?)? validato;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: TextField(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+        validator: validato,
+        controller: edit,
+        decoration: InputDecoration(
+          hintText: desc,
+          filled: true,
+          labelText: desc,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0)
+          )
+        ),
+        keyboardType: TextInputType.number,
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+/*TextField(
           controller: edit,
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
@@ -32,6 +63,5 @@ class InputsCard extends StatelessWidget {
       //hintText: 'QUALQUER',
       //border: OutlineInputBorder()),
       keyboardType: TextInputType.number,
-    ));
-  }
-}
+    )
+    */

@@ -9,3 +9,7 @@ const kBotaoInferiorTelaPrincipal =
 
 const kTextSelecionar =
     TextStyle(fontSize: 20, color: Colors.blue, fontWeight: FontWeight.w900);
+const kTextConsumoDiario = TextStyle(fontSize: 20, color: Colors.white);
+
+const kTextTelaDadosResult =
+    TextStyle(fontSize: 28.0, fontWeight: FontWeight.w900, color: Colors.black);

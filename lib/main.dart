@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seara_app/tela_dados.dart';
 import 'package:seara_app/tela_principal.dart';
 
 void main() {
