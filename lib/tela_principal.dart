@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:seara_app/funcoes.dart';
 import 'package:seara_app/tela_dados.dart';
-// ignore: unused_import
 import 'constantes.dart';
 import 'card_padrao.dart';
 import 'botaoInferiorPadrao.dart';
 import 'Inputs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TelaPrincipal extends StatefulWidget {
   const TelaPrincipal({super.key});
@@ -15,81 +15,13 @@ class TelaPrincipal extends StatefulWidget {
 }
 
 class _TelaPrincipalState extends State<TelaPrincipal> {
-  TextEditingController idadeController = TextEditingController();
-  TextEditingController racaorecebidaController = TextEditingController();
-  TextEditingController racaoEstoqueController = TextEditingController();
-  TextEditingController mortalidadeController = TextEditingController();
-  TextEditingController pesoMedioController = TextEditingController();
-  TextEditingController avesAlojadasController = TextEditingController();
-  TextEditingController aindaVaiConsumirController = TextEditingController();
-
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-
-  int? selectedDay;
-  int? gramasIngeridas;
-
-// Lista com a quantidade de gramas ingeridas por dia
-  final List<int> gramaIngeridoPorDia = [20, 22, 24, 26, 29];  
-  
-
-  void reset() {
-    idadeController.text = "";
-    racaorecebidaController.text = "";
-    mortalidadeController.text = "";
-    pesoMedioController.text = "";
-    avesAlojadasController.text = "";
-    racaoEstoqueController.text = "";
+  @override
+  void initState() {
+    super.initState();
+    carregarEstoque();
   }
-
-  /*String consumoDiario() {   // Função para calcular o consumo diário
-    int result = 0;
-    double cheg = double.parse(avesAlojadasController.text);
-    double morre = double.parse(mortalidadeController.text);
-    double consumo = ((cheg - morre) * gramasIngeridas!)/1000; // Consumo Diário em Kg
-
-    return result.toStringAsFixed(0);
-  }*/
-
-  String CA() {
-    //double consuDiario = double.parse(consumoDiario());
-    //double totalconsumido = consuDiario++; Caso houver historico
-    double pesoMedio = double.parse(pesoMedioController.text);
-    double avesAloj = double.parse(avesAlojadasController.text);
-    double mortalidade = double.parse(mortalidadeController.text);
-    double racaoRecebida = double.parse(racaorecebidaController.text);
-    double racaoEstoque = double.parse(racaoEstoqueController.text);
-    double totAves = avesAloj - mortalidade;
-    double pesoTot = pesoMedio * totAves;
-    double racaoTotalConsumida = (racaoRecebida - racaoEstoque);
-    double resultadoCA = racaoTotalConsumida / pesoTot;
-
-    return resultadoCA.toStringAsFixed(4);
-  }
-
-  String CAC() {
-    double pesoMedio = double.parse(pesoMedioController.text);
-    double variavelCA = double.parse(CA());
-    double avesAloj = double.parse(avesAlojadasController.text);
-    double mortalidade = double.parse(mortalidadeController.text);
-    double totAves = avesAloj - mortalidade;
-    double pesoTot = pesoMedio * totAves;
-    double k9 = pesoTot / totAves;
-    double resultadoCAC = (((2.8 - k9) / 50) * 12.66 + variavelCA);
-
-    return resultadoCAC.toStringAsFixed(4);
-  }
-
-  /*String Estoque() {  // Função para calcular o estoque
-    double racaAloja = double.parse(racaorecebidaController.text);
-    double consumo = double.parse(consumoDiario());
-
-    double result = (racaAloja - consumo);
-    return result.toStringAsPrecision(4);
-  }*/
-
-  //int? selectedDay; // Variável para armazenar o dia selecionado
-  String? selectedGender2; // Seleção para o segundo CardPadrao
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +40,9 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
             ],
           ),
           child: AppBar(
-            actions: [IconButton(onPressed: reset, icon: Icon(Icons.refresh))],
+            actions: [
+              IconButton(onPressed: reset, icon: const Icon(Icons.refresh))
+            ],
             backgroundColor: const Color.fromRGBO(255, 102, 0, 2.0),
             elevation: 3.0,
             title: const Text(
@@ -132,90 +66,31 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                     Row(
                       children: [
                         Expanded(
-                            child: Card(
-                              color: Colors.grey[800],
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Text(
-                                      'DIA',
-                                      style: TextStyle(fontSize: 15, color: Colors.white),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    DropdownButton<int>(
-                                      iconSize: 0.0,
-                                      hint: const Center(
-                                        child: Text(
-                                          'Selecione:',
-                                          style: TextStyle(color: Colors.white, fontSize: 15.0),
-                                        ),
-                                      ),
-                                      value: selectedDay,
-                                      items: List.generate(gramaIngeridoPorDia.length, (index) => index + 1)
-                                          .map((int value) {
-                                        return DropdownMenuItem<int>(
-                                          value: value,
-                                          child: Text(value.toString()),
-                                        );
-                                      }).toList(),
-                                      onChanged: (int? newValue) {
-                                        setState(() {
-                                          selectedDay = newValue;
-                                          gramasIngeridas = newValue != null
-                                              ? gramaIngeridoPorDia[newValue - 1] // Pega o valor correspondente na lista
-                                              : null;
-                                        });
-                                      },
-                                      isExpanded: true,
-                                      dropdownColor: const Color.fromARGB(255, 56, 56, 56),
-                                      style: const TextStyle(color: Colors.white),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    if (gramasIngeridas != null)
-                                      Text(
-                                        "Gramas ingeridas: $gramasIngeridas g",
-                                        style: const TextStyle(fontSize: 16, color: Colors.white),
-                                      ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        Expanded(
-                          child: CardPadrao(
-                            filhoCard: Column(
-                              children: [
-                                const Text(
-                                  'GÊNERO',
-                                  style: TextStyle(
-                                      fontSize: 15, color: Colors.white),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                DropdownButton<String>(
-                                  iconSize: 0.0,
-                                  hint: const Text(
-                                    'Selecione:',
-                                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.normal, fontSize: 15.0,),
+                          child: Card(
+                            color: Colors.grey[800],
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Text(
+                                    'GAD',
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.white),
                                   ),
-                                  value: selectedGender2,
-                                  items: <String>['Macho', 'Fêmea', 'Misto']
-                                      .map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      selectedGender2 = newValue;
-                                    });
-                                  },
-                                ),
-                              ],
+                                  const SizedBox(height: 20),
+                                  InputsCard(
+                                      validato: (value) {
+                                        if (value!.isEmpty) {
+                                          return 'Campo vazio';
+                                        }
+                                        return null;
+                                      },
+                                      desc: 'Valor (g):',
+                                      edit: gadController),
+                                  const SizedBox(height: 10),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -242,7 +117,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                                       }
                                       return null;
                                     },
-                                    desc: 'Quantidade',
+                                    desc: 'Quantidade:',
                                     edit: avesAlojadasController)
                               ],
                             ),
@@ -267,7 +142,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                                       }
                                       return null;
                                     },
-                                    desc: 'Morreu',
+                                    desc: 'Morreram:',
                                     edit: mortalidadeController)
                               ],
                             ),
@@ -282,7 +157,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                             filhoCard: Column(
                               children: [
                                 const Text(
-                                  'RAÇÃO EM ESTOQUE',
+                                  'RAÇÃO RECEBIDA (Kg)',
                                   style: TextStyle(
                                       fontSize: 15, color: Colors.white),
                                 ),
@@ -296,111 +171,52 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                                       }
                                       return null;
                                     },
-                                    desc: 'Quantidade',
-                                    edit: racaoEstoqueController)
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: CardPadrao(
-                            filhoCard: Column(
-                              children: [
-                                const Text(
-                                  'PESO MÉDIO',
-                                  style: TextStyle(
-                                      fontSize: 15, color: Colors.white, fontWeight: FontWeight.normal),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                InputsCard(
-                                    validato: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Este campo não pode estar vazio';
-                                      }
-                                      if (double.tryParse(value) == null) {
-                                        return 'Por favor, insira um número válido';
-                                      }
-                                      return null;
-                                    },
-                                    desc: 'Peso',
-                                    edit: pesoMedioController),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    Row(
-                      children: [
-                        Expanded(
-                          child: CardPadrao(
-                            filhoCard: Column(
-                              children: [
-                                const Text(
-                                  'AINDA VAI CONSUMIR',
-                                  style: TextStyle(
-                                      fontSize: 15, color: Colors.white),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                InputsCard(
-                                    validato: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Campo vazio';
-                                      }
-                                      return null;
-                                    },
-                                    desc: 'Quantidade',
-                                    edit: aindaVaiConsumirController)
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: CardPadrao(
-                            filhoCard: Column(
-                              children: [
-                                const Text(
-                                  'RAÇÃO RECEBIDA',
-                                  style: TextStyle(
-                                      fontSize: 15, color: Colors.white),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                InputsCard(
-                                    validato: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Campo vazio';
-                                      }
-                                      return null;
-                                    },
-                                    desc: 'Morreu',
+                                    desc: 'Quantidade (Kg):',
                                     edit: racaorecebidaController)
                               ],
                             ),
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              iniciarNovoLote(context);
+                            },
+                            icon: const Icon(Icons.refresh),
+                            label: const Text('Iniciar Novo Lote'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.orange,
+                              foregroundColor: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
               GestureDetector(
-                onTap: () {
+                onTap: () async {
                   if (formKey.currentState!.validate()) {
+                    // 1. Calcula e salva estoque + aves vivas
+                    String novoEstoqueStr = await calcularNovoEstoque();
+                    double novoEstoque = double.parse(
+                        novoEstoqueStr); // converte de volta para double
+
+                    // 2. Salva o histórico com a função que você já criou
+                    await salvarEstoque(novoEstoque);
+
+                    // 4. Navega para a próxima tela
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => TelaDados(
-                          //resultadoAve: consumoDiario(),
-                          //estoquee: Estoque(),
-                          resultadoCA: CA(),
-                          resultadoCAC: CAC(),
+                          resultadoConsumoDiario: consumoDiario(),
+                          resultadoEstoque: novoEstoqueStr,
                         ),
                       ),
                     );

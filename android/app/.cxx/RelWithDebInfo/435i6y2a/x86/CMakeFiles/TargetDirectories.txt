@@ -1,0 +1,2 @@
+C:/Users/Alvaro/OneDrive/Documents/GitHub/aplicativo_seara/android/app/.cxx/RelWithDebInfo/435i6y2a/x86/CMakeFiles/edit_cache.dir
+C:/Users/Alvaro/OneDrive/Documents/GitHub/aplicativo_seara/android/app/.cxx/RelWithDebInfo/435i6y2a/x86/CMakeFiles/rebuild_cache.dir

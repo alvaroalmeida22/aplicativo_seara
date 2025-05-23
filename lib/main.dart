@@ -3,7 +3,7 @@ import 'package:seara_app/tela_dados.dart';
 import 'package:seara_app/tela_principal.dart';
 
 void main() {
-  runApp(SearaApp());
+  runApp(const SearaApp());
 }
 
 // ignore: camel_case_types
@@ -13,7 +13,7 @@ class SearaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Seara weeddwApp',
+      title: 'Seara App',
       theme: ThemeData(primarySwatch: Colors.grey),
       home: TelaPrincipal(),
       debugShowCheckedModeBanner: false,

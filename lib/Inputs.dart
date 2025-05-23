@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class InputsCard extends StatelessWidget {
-  InputsCard({
+  const InputsCard({super.key, 
     required this.desc,
     required this.edit,
     required this.validato,

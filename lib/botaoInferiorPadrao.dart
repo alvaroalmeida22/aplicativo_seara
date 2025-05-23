@@ -3,8 +3,8 @@ import 'package:seara_app/tela_dados.dart';
 import 'constantes.dart';
 
 class BotaoInferiorPadrao extends StatelessWidget {
-  BotaoInferiorPadrao(
-      {required this.textoInferior, });
+  const BotaoInferiorPadrao(
+      {super.key, required this.textoInferior, });
   final String textoInferior;
 
   @override
@@ -19,8 +19,8 @@ class BotaoInferiorPadrao extends StatelessWidget {
             style: kBotaoInferiorTelaPrincipal,
           ),
         ),
-        color: Color.fromRGBO(255, 102, 0, 2.0),
-        margin: EdgeInsets.only(top: 10.0),
+        color: const Color.fromRGBO(255, 102, 0, 2.0),
+        margin: const EdgeInsets.only(top: 10.0),
         width: double.infinity,
         height: 60.0,
       ),

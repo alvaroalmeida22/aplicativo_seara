@@ -3,14 +3,18 @@ import 'constantes.dart';
 import 'card_padrao.dart';
 import 'botaoInferiorPadrao.dart';
 import 'Inputs.dart';
+import 'tela_historico_estoque.dart';
+
 
 class TelaDados extends StatelessWidget {
-  TelaDados({required this.resultadoCA, required this.resultadoCAC});
+  const TelaDados(
+      {super.key,
+      required this.resultadoConsumoDiario,
+      required this.resultadoEstoque});
 
-  //final String resultadoAve;
-  //final String estoquee;
-  final String resultadoCA;
-  final String resultadoCAC;
+  
+  final String resultadoConsumoDiario;
+  final String resultadoEstoque;
 
   @override
   Widget build(BuildContext context) {
@@ -41,59 +45,13 @@ class TelaDados extends StatelessWidget {
           Expanded(
             flex: 15,
             child: Padding(
-              padding: EdgeInsets.all(10.0), // Reduzi o padding geral
+              padding: const EdgeInsets.all(10.0), // Reduzi o padding geral
               child: Column(
                 mainAxisAlignment:
                     MainAxisAlignment.start, // Alinha os itens no topo
                 children: [
-                  Row(
+                  const Row(
                     children: [
-                     /* Expanded(
-                        child: CardPadrao(
-                          filhoCard: Column(
-                            children: [
-                              const Text(
-                                'CONSUMO/DIA',
-                                style: TextStyle(fontSize: 19.0, color: Colors.white),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Text(
-                                  resultadoAve,
-                                  style: kTextTelaDadosResult,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: CardPadrao(
-                          filhoCard: Column(
-                            children: [
-                              Text(
-                                'ESTOQUE',
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.white),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(20.0),
-                                child: Text(
-                                  estoquee,
-                                  style: kTextTelaDadosResult,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),*/
                     ],
                   ),
                   const SizedBox(
@@ -106,20 +64,20 @@ class TelaDados extends StatelessWidget {
                         filhoCard: Column(
                           children: [
                             const Text(
-                              'CA',
+                              'Consumo Diário (Kg)',
                               style:
                                   TextStyle(fontSize: 20, color: Colors.white),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(20.0),
                               child: Text(
-                                resultadoCA, style: kTextTelaDadosResult,
+                                resultadoConsumoDiario,
+                                style: kTextTelaDadosResult,
                               ),
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-                            
                           ],
                         ),
                       )),
@@ -128,20 +86,20 @@ class TelaDados extends StatelessWidget {
                         filhoCard: Column(
                           children: [
                             const Text(
-                              'CAC',
+                              'Estoque (Kg)',
                               style:
                                   TextStyle(fontSize: 20, color: Colors.white),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(20.0),
                               child: Text(
-                                resultadoCAC, style: kTextTelaDadosResult,
+                                resultadoEstoque,
+                                style: kTextTelaDadosResult,
                               ),
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-                            
                           ],
                         ),
                       )),
@@ -153,7 +111,12 @@ class TelaDados extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const TelaHistoricoEstoque(),
+                ),
+              );
             },
             child: BotaoInferiorPadrao(
               textoInferior: 'Ver Histórico',
