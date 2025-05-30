@@ -18,10 +18,10 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
-  void initState() {
+  /* void initState() {
     super.initState();
     carregarEstoque();
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -203,20 +203,19 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                 onTap: () async {
                   if (formKey.currentState!.validate()) {
                     // 1. Calcula e salva estoque + aves vivas
-                    String novoEstoqueStr = await calcularNovoEstoque();
-                    double novoEstoque = double.parse(
-                        novoEstoqueStr); // converte de volta para double
+                    //double novoEstoqueStr = await calculoEstoque();
+                    //double novoEstoque = double.parse(novoEstoqueStr); // converte de volta para double
 
                     // 2. Salva o histórico com a função que você já criou
-                    await salvarEstoque(novoEstoque);
+                    //await salvarEstoque(novoEstoque);
 
                     // 4. Navega para a próxima tela
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => TelaDados(
-                          resultadoConsumoDiario: consumoDiario(),
-                          resultadoEstoque: novoEstoqueStr,
+                          gad: gad,
+                          racaoRecebida: racaoRecebida,
                         ),
                       ),
                     );
